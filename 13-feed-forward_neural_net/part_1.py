@@ -12,6 +12,10 @@ import torchvision
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 
+from torch.utils.tensorboard import SummaryWriter
+import sys
+writer = SummaryWriter("runs/mnist")
+
 # device config
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -43,6 +47,10 @@ for i in range(6):
     plt.subplot(2, 3, i+1)
     plt.imshow(samples[i][0], cmap='gray')
 # plt.show()
+img_grid = torchvision.utils.make_grid(samples)
+writer.add_image('mnist_images', img_grid)
+writer.close()
+sys.exit()
 
 class NeuralNet(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
